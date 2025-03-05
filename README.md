@@ -24,9 +24,10 @@ python -m venv venv
 venv/bin/activate 
 ```
 
-Установите Streamlit
+Установите нужные библиотеки
 ```bash
-pip install -r requirements.txt
+python -m pip install --upgrade pip
+pip install -r requirements.txt
 ```
 
 Запустить приложение
