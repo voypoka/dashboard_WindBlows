@@ -8,6 +8,7 @@ LINK TO VIDEO
 Склонируйте репозиторий
 ```bash
 git clone https://github.com/voypoka/dashboard_WindBlows.git
+cd dashboard_WindBlows
 ```
 Создайте виртуальное окружение
 MacOS / Ubuntu
@@ -25,7 +26,7 @@ venv/bin/activate
 
 Установите Streamlit
 ```bash
-pip install streamlit
+pip install -r requirements.txt
 ```
 
 Запустить приложение
