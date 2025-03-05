@@ -5,7 +5,7 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# 1. Настройка страницы и тёмного фона
+# Настройка страницы
 st.set_page_config(layout="wide")
 
 st.markdown(
@@ -52,19 +52,14 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 2. Загрузка данных
+# Загрузка данных
 df = pd.read_csv("result.csv", encoding="utf-8")
 
-st.title("Дашборд: мониторинг качества чат-бота (Итоговый датасет)")
-
-with st.expander("ℹ️ Отладочная информация"):
-    st.write("Список колонок:", df.columns.tolist())
-    st.dataframe(df.head())
+st.title("Дашборд: мониторинг качества чат-бота")
 
 st.markdown("<div class='top-panel'>", unsafe_allow_html=True)
 
 #Подсчёт метрик
-
 #Средняя точность
 bert_columns = [
     "answer_correctness_neural - Ответ AI и Giga",
@@ -118,7 +113,7 @@ with col3:
 st.markdown("</div>", unsafe_allow_html=True)
 
 
-# 3. Списки для фильтров и метрик
+# Списки для фильтров и метрик
 campuses = ["Москва", "Нижний Новгород", "Санкт-Петербург", "Пермь"]
 education_levels = ["Бакалавриат", "Магистратура", "Специалитет", "Аспирантура"]
 question_categories = [
@@ -144,7 +139,7 @@ standard_metrics = [
 
 df["random_timestamp"] = pd.to_datetime(df["random_timestamp"])
 
-# 4. Блок с фильтрами (общий)
+# Блок с общими фильтрами
 st.subheader("Фильтры")
 
 col1, col2, col3, col4 = st.columns(4)
@@ -182,6 +177,7 @@ if isinstance(selected_dates, list):
 else:
     start_date = selected_dates
     end_date = selected_dates
+
 # Применяем фильтры
 df_filtered = df[
     (df["Кампус"].isin(selected_campus)) &
@@ -193,12 +189,10 @@ df_filtered = df[
 
 st.markdown("---")
 
-# 5. Разделяем страницу на три колонки
+# Разделяем страницу на три колонки
 col1, col2, col3 = st.columns(3)
 
-# =========================
 #  Функции для расчётов
-# =========================
 def choose_metric():
     if "selected_metric" not in st.session_state:
         st.session_state["selected_metric"] = standard_metrics[0]
@@ -292,7 +286,6 @@ def logistic_analysis(df_filtered):
       <p style="color: white; font-size: 1.5rem;">Стандартная ошибка: {se:.3f}</p>
     </div>
     """, unsafe_allow_html=True)
-
 
 def show_covariance_matrix(df_filtered):
     """
@@ -541,9 +534,7 @@ def show_metrics(df_filtered, metric_name):
 
     st.pyplot(fig)
 
-# =========================
-#  Функция для нового графика в третьем столбце
-# =========================
+
 def show_context_recall(df_filtered):
     """
     График по context_recall (AI - Saiga, AI - Giga, Saiga - Giga) в стиле #242630.
@@ -720,9 +711,7 @@ def show_answer_correctness_neural(df_filtered):
     st.pyplot(fig)
 
 
-# =========================
 #  Колонка 1
-# =========================
 with col1:
     st.subheader("Выбор стандартной метрики")
     choose_metric()
@@ -744,10 +733,7 @@ with col1:
 
     st.markdown("---")
 
-
-# =========================
 #  Колонка 2
-# =========================
 with col2:
     st.subheader("Spider-chart")
     show_radar_chart(df_filtered)
@@ -765,9 +751,7 @@ with col2:
     st.markdown("---")
 
 
-# =========================
-#  Колонка 3: Новый график
-# =========================
+#  Колонка 3
 with col3:
     st.subheader("Context Recall (обобщённый)")
     show_context_recall(df_filtered)
@@ -787,9 +771,7 @@ with col3:
     st.subheader("BERT (Correctness neural)")
     show_answer_correctness_neural(df_filtered)
 
-# =========================
-#  Корреляционная матрица (вне столбцов)
-# =========================
+#Корреляционная матрица и график по категориям
 st.subheader("Корреляционная матрица")
 show_covariance_matrix(df_filtered)
 
@@ -802,11 +784,3 @@ local_metric = st.selectbox(
     key="local_metric"
 )
 show_metrics(df_filtered, local_metric)
-# =========================
-#  Итоговая информация
-# =========================
-st.markdown("---")
-st.write(f"Найдено строк после фильтрации: {len(df_filtered)}")
-
-with st.expander("Посмотреть отфильтрованные данные"):
-    st.dataframe(df_filtered)
