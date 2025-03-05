@@ -1,6 +1,6 @@
 # Демонстрация функционирования сайта
 ***
-LINK TO VIDEO
+https://drive.google.com/file/d/1ZmomX40hyLHc_1Y70XmKSkbFO4xOJxAE/view?usp=sharing
 
 # Структура нашего проекта: 
 - app.py - файл с сайтом
