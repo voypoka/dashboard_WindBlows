@@ -34,3 +34,4 @@ pip install -r requirements.txt
 ```bash
 streamlit run app.py 
 ```
+Видео с установкой: https://drive.google.com/file/d/1ZI38XwWw-7HJDEdhQ4D6FDGChg6v6S0g/view?usp=sharing
